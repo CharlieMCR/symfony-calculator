@@ -50,7 +50,8 @@
         "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "^5.3",
         "symfony/var-dumper": "^5.3",
-        "symfony/web-profiler-bundle": "^5.3"
+        "symfony/web-profiler-bundle": "^5.3",
+        "vimeo/psalm": "^4.9"
     },
     "config": {
         "optimize-autoloader": true,
@@ -88,7 +89,8 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "php-cs-fixer": "php-cs-fixer fix --allow-risky=yes"
+        "php-cs-fixer": "php-cs-fixer fix --allow-risky=yes",
+        "psalm": "psalm"
     },
     "conflict": {
         "symfony/symfony": "*"
