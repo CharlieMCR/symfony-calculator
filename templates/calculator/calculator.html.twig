@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfony Calculator{% endblock %}
+
+{% block body %}
+    <div>
+        {% for message in app.flashes('success') %}
+            <div class="result">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="error">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <br><br>
+        {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
+        {{ form_errors(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
