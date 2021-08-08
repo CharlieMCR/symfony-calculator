@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="Charliemcr">
+    <arg name="colors"/>
+    <arg value="sp"/>
+    <config name="show_warnings" value="0"/>
+
+    <rule ref="PSR12"/>
+    <rule ref="Generic.PHP.RequireStrictTypes"/>
+
+    <file>./src</file>
+    <file>./tests</file>
+</ruleset>
