@@ -3,20 +3,23 @@
 {% block title %}Symfony Calculator{% endblock %}
 
 {% block body %}
-    <div>
+    <div class="container-fluid">
+        <div>
         {% for message in app.flashes('success') %}
-            <div class="result">
+            <div class="result mb-3 text-success">
                 {{ message }}
             </div>
         {% endfor %}
         {% for message in app.flashes('error') %}
-            <div class="error">
+            <div class="error mb-3 text-danger">
                 {{ message }}
             </div>
         {% endfor %}
-        <br><br>
+        </div>
+        <div class="">
         {{ form_start(form, { 'attr': {'autocomplete': 'off'} }) }}
         {{ form_errors(form) }}
         {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
