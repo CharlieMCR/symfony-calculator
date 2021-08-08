@@ -1,0 +1,35 @@
+name: run-tests
+on: [ push, pull_request ]
+jobs:
+  test:
+    name: Automated Testing
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: cache
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8
+          extensions: dom, curl, libxml, mbstring, pcntl, bcmath, iconv
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-interaction
+
+      - name: PHPCS
+        run: composer run-script style
+
+      - name: PHP Unit
+        run: composer run-script test
+
+      - name: Psalm
+        run: composer run-script psalm
