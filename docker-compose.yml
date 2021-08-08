@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+  php:
+    build:
+     dockerfile:  ./docker/php/dev/Dockerfile
+     context: .
+    volumes:
+      - .:/var/www/html
+      - ./vendor:/var/www/html/vendor:ro
+      - ./docker/php/dev/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro
+      - ./docker/php/dev/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini:ro
+      - /tmp/profiling:/profiling
+    environment:
+      PHP_IDE_CONFIG: serverName=localhost
+      XDEBUG_SESSION: PHPSTORM
