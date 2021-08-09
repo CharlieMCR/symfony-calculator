@@ -25,25 +25,18 @@ class CalculatorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var CalculatorData $calculatorData */
-            $calculatorData = $form->getData();
-            $calculator = $calculatorFactory->create($calculatorData->getOperand());
             try {
+                /** @var CalculatorData $calculatorData */
+                $calculatorData = $form->getData();
+                $calculator = $calculatorFactory->create($calculatorData->getOperand());
                 $result = $calculator->solve($calculatorData->getArgument1(), $calculatorData->getArgument2());
                 $this->addFlash('success', 'Result: ' . $result);
             } catch (CalculatorOperationException $e) {
                 $this->addFlash('error', $e->getMessage());
             }
-
-            return $this->render('calculator/calculator.html.twig', [
-                'form' => $form->createView(),
-            ]);
         }
-        return $this->render(
-            'calculator/calculator.html.twig',
-            [
-                'form' => $form->createView(),
-            ]
-        );
+        return $this->render('calculator/calculator.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

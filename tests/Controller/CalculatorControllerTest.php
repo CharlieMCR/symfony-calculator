@@ -12,14 +12,19 @@ class CalculatorControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        //
         $client->request('GET', '/calculator');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('[for="calculator_form_argument1"]', 'Argument 1');
         $this->assertSelectorTextContains('[for="calculator_form_argument2"]', 'Argument 2');
         $this->assertSelectorTextContains('[for="calculator_form_operand"]', 'Operand');
+    }
 
+    public function testCalculateSuccessfulSubmission(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/calculator');
+        $this->assertResponseIsSuccessful();
         $client->submitForm(
             'calculator_form_Calculate',
             [
@@ -30,8 +35,30 @@ class CalculatorControllerTest extends WebTestCase
         );
 
         $this->assertSelectorTextContains('.result', '10');
+    }
 
-        // TODO add test cases for error handling
+    public function testCalculateInvalidSubmission(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/calculator');
+        $this->assertResponseIsSuccessful();
+        $client->submitForm(
+            'calculator_form_Calculate',
+            [
+                'calculator_form[argument1]' => 5,
+                'calculator_form[operand]' => '/',
+                'calculator_form[argument2]' => __METHOD__,
+            ]
+        );
+
+        $this->assertSelectorTextContains('.invalid-feedback', 'Please enter a number');
+    }
+
+    public function testCalculateFailedSubmission(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/calculator');
+        $this->assertResponseIsSuccessful();
         $client->submitForm(
             'calculator_form_Calculate',
             [
